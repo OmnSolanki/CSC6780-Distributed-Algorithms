@@ -6,7 +6,7 @@ from chord import *
 
 
 def check_key_lookup(peers, hash_list):
-	print "Running key lookup consistency test"
+	print("Running key lookup consistency test")
 	for key in range(SIZE):
 		# select random node
 		node = peers[random.randrange(len(peers))]
@@ -19,13 +19,13 @@ def check_key_lookup(peers, hash_list):
 					try:
 						assert target.id() == hash_list[(i+1)%len(peers)]
 						break
-					except Exception, e:
-						print "Fail number %s, %s to abort" % (tries, 4-tries)
+					except Exception as e:
+						print("Fail number %s, %s to abort" % (tries, 4-tries))
 						tries += 1
 						if tries > 4:
 							raise e
 						time.sleep(1.5 ** tries)
-	print "Finished key lookup consistency test, all good"
+	print("Finished key lookup consistency test, all good")
 
 """
 def data_fusser(peers):
@@ -55,11 +55,11 @@ def data_fusser(peers):
 """
 
 # create addresses
-address_list = map(lambda addr: Address('127.0.0.1', addr), list(set(map(lambda x: random.randrange(40000,50000), range(10)))))
+address_list = [Address('127.0.0.1', addr) for addr in list(set([random.randrange(40000,50000) for x in range(10)]))]
 # keep unique ones
 address_list = sorted(set(address_list))
 # hash the addresses
-hash_list 	 = map(lambda addr: addr.__hash__(), address_list)
+hash_list 	 = [addr.__hash__() for addr in address_list]
 hash_list.sort()
 # create the nodes
 locals_list   = []
@@ -80,7 +80,7 @@ for i in range(0, len(address_list)):
 # We need to give it some time to stabilize
 time.sleep(20)
 
-print "done creating peers, our pid is %s (for `kill -9`)" % os.getpid()
+print("done creating peers, our pid is %s (for `kill -9`)" % os.getpid())
 
 # check key lookup consistency
 check_key_lookup(locals_list, hash_list)
@@ -92,5 +92,5 @@ check_key_lookup(locals_list, hash_list)
 for local in locals_list:
 	msocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	msocket.connect((local.address_.ip, local.address_.port))
-	msocket.sendall('shutdown\r\n')
+	msocket.sendall(b'shutdown\r\n')
 	msocket.close()

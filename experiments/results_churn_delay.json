@@ -1,0 +1,46 @@
+[
+  {
+    "nodes": 20,
+    "failure_probability": 0.0,
+    "avg_latency_sec": 0.0903,
+    "p95_latency_sec": 0.1833,
+    "stdev_latency_sec": 0.0359,
+    "throughput_ops_per_sec": 11.069,
+    "success_rate": 1.0,
+    "failures": 0,
+    "total_runtime_sec": 5.91
+  },
+  {
+    "nodes": 20,
+    "failure_probability": 0.1,
+    "avg_latency_sec": 0.0731,
+    "p95_latency_sec": 0.077,
+    "stdev_latency_sec": 0.0025,
+    "throughput_ops_per_sec": 13.678,
+    "success_rate": 1.0,
+    "failures": 0,
+    "total_runtime_sec": 5.74
+  },
+  {
+    "nodes": 20,
+    "failure_probability": 0.2,
+    "avg_latency_sec": 0.0745,
+    "p95_latency_sec": 0.0773,
+    "stdev_latency_sec": 0.0021,
+    "throughput_ops_per_sec": 13.43,
+    "success_rate": 0.6,
+    "failures": 4,
+    "total_runtime_sec": 7.61
+  },
+  {
+    "nodes": 20,
+    "failure_probability": 0.3,
+    "avg_latency_sec": 0.0738,
+    "p95_latency_sec": 0.0764,
+    "stdev_latency_sec": 0.0022,
+    "throughput_ops_per_sec": 13.548,
+    "success_rate": 0.8,
+    "failures": 2,
+    "total_runtime_sec": 6.67
+  }
+]

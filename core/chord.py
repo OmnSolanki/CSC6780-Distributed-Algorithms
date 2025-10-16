@@ -5,7 +5,7 @@ import socket
 import threading
 import random
 import time
-import mutex
+import threading
 
 from address import Address, inrange
 from remote import Remote
@@ -38,12 +38,20 @@ def retry_on_socket_error(retry_limit):
 					time.sleep(2 ** retry_count)
 					retry_count += 1
 			if retry_count == retry_limit:
-				print "Retry count limit reached, aborting.. (%s)" % func.__name__
+				print("Retry count limit reached, aborting.. (%s)" % func.__name__)
 				self.shutdown_ = True
 				sys.exit(-1)
 		return inner
 	return decorator
 
+# Replacement for the old Python-2 mutex module
+class mutex:
+    def __init__(self):
+        self.lock = threading.Lock()
+    def acquire(self):
+        self.lock.acquire()
+    def release(self):
+        self.lock.release()
 
 # deamon to run Local's run method
 class Daemon(threading.Thread):
@@ -59,7 +67,7 @@ class Daemon(threading.Thread):
 class Local(object):
 	def __init__(self, local_address, remote_address = None):
 		self.address_ = local_address
-		print "self id = %s" % self.id()
+		print("self id = %s" % self.id())
 		self.shutdown_ = False
 		# list of successors
 		self.successors_ = []
@@ -104,7 +112,7 @@ class Local(object):
 
 	def join(self, remote_address = None):
 		# initially just set successor
-		self.finger_ = map(lambda x: None, range(LOGSIZE))
+		self.finger_ = [None for x in range(LOGSIZE)]
 
 		self.predecessor_ = None
 
@@ -179,7 +187,7 @@ class Local(object):
 
 	def get_successors(self):
 		self.log("get_successors")
-		return map(lambda node: (node.address_.ip, node.address_.port), self.successors_[:N_SUCCESSORS-1])
+		return [(node.address_.ip, node.address_.port) for node in self.successors_[:N_SUCCESSORS-1]]
 
 	def id(self, offset = 0):
 		return (self.address_.__hash__() + offset) % SIZE
@@ -192,7 +200,7 @@ class Local(object):
 			if remote.ping():
 				self.finger_[0] = remote
 				return remote
-		print "No successor available, aborting"
+		print("No successor available, aborting")
 		self.shutdown_ = True
 		sys.exit(-1)
 
@@ -293,7 +301,7 @@ class Local(object):
 		self.command_.append((cmd, callback))
 
 	def unregister_command(self, cmd):
-		self.command_ = filter(lambda t: True if t[0] != cmd else False, self.command_)
+		self.command_ = [t for t in self.command_ if (True if t[0] != cmd else False)]
 
 if __name__ == "__main__":
 	import sys

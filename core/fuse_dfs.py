@@ -51,7 +51,7 @@ BLOCK_SIZE = 4096
 # default stat, not very useful
 class MyStat(fuse.Stat):
     def __init__(self):
-        self.st_mode = stat.S_IFDIR | 0755
+        self.st_mode = stat.S_IFDIR | 0o755
         self.st_dev = 0
         self.st_ino = 0
         self.st_nlink = 1
@@ -121,7 +121,7 @@ class FUSEDFS(fuse.Fuse):
 
         if obj['type'] == 'file':
             # if it's a file, set the file flag and get size
-            st.st_mode = stat.S_IFREG | 0666
+            st.st_mode = stat.S_IFREG | 0o666
             # we assume there's nothing bigger than 4G here. we do a binary search
             # to find the las block. This could be improved a lot with different
             # algorithms or ideas.

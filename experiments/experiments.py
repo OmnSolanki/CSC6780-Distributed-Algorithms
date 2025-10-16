@@ -54,7 +54,7 @@ def remove_network_delay():
         cleaned_content = "\n".join(clean_lines)
         with open(network_path, "w") as f:
             f.write(cleaned_content)
-        print("🧹 Removed injected network delay.")
+        print("Removed injected network delay.")
     else:
         print("No artificial delay found — network.py already clean.")
 
@@ -81,7 +81,7 @@ def run_experiment(n):
         stderr=subprocess.PIPE
     )
 
-    print("→ Waiting for network to stabilize...")
+    print("Waiting for network to stabilize...")
     time.sleep(STABILIZATION_DELAY)
 
     lookup_times = []
@@ -113,9 +113,9 @@ def run_experiment(n):
             successes += 1
             latency = time.time() - t0
             lookup_times.append(latency)
-            print(f"✔ Lookup {i+1} done ({latency:.3f}s)")
+            print(f"Lookup {i+1} done ({latency:.3f}s)")
         except subprocess.TimeoutExpired:
-            print(f"⚠️ Lookup {i+1} timed out.")
+            print(f"Lookup {i+1} timed out.")
             failures += 1
             continue
 
@@ -191,7 +191,7 @@ def main():
         remove_network_delay()
         mode = "Baseline (No Delay)"
 
-    print(f"\n🚀 Starting experiments: {mode}\n")
+    print(f"\nStarting experiments: {mode}\n")
     results = []
     for n in NUM_NODES:
         results.append(run_experiment(n))

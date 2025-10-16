@@ -34,7 +34,7 @@ def create_chord_ring(nnodes, stabilize_time=8):
 
 
 def shutdown_chord_ring(locals_list):
-    print("🧹 Shutting down all nodes...")
+    print("Shutting down all nodes...")
     for peer in locals_list:
         try:
             peer.shutdown()
